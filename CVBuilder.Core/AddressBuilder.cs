@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CVBuilder.Core
+﻿namespace CVBuilder.Core
 {
-    public class AddressBuilder : ICountry, ICounty, ICity, ILanguage
+    public class AddressBuilder : ICountry, ICounty, ICity, IDataUpdate
     {
         private Address _address;
-        private AddressBuilder() 
+        private ILanguage _language;
+        private AddressBuilder(ILanguage language, Address address)
         {
+            address = address ?? new Address(); // if address is null, we will lose the link to the cv.address
+            _address = address;
+            _language = language;
         }
 
-        public static ICountry Start() 
+        public static ICountry Start(ILanguage language, Address address)
         {
-            return new AddressBuilder();
-        }
-
-        public ILanguage WithCity(string city)
-        {
-            _address.City = city;
-            return this;
+            return new AddressBuilder(language, address);
         }
 
         public ICounty WithCountry(string country)
@@ -34,13 +28,26 @@ namespace CVBuilder.Core
             return this;
         }
 
-        public INationality WithLanguage(string language)
+        public IDataUpdate WithCity(string city)
         {
-            throw new NotImplementedException();
+            _address.City = city;
+            return this;
+        }
+
+        public ILanguage Update()
+        {
+            var builder = _language as IUpdatableBuilder<Address>;
+
+            if (builder != null)
+            {
+                builder.UpdateParrentBuilder(_address);
+            }
+
+            return _language;
         }
     }
 
-    public interface ICountry 
+    public interface ICountry
     {
         ICounty WithCountry(string country);
     }
@@ -52,6 +59,11 @@ namespace CVBuilder.Core
 
     public interface ICity
     {
-        ILanguage WithCity(string city);
+        IDataUpdate WithCity(string city);
+    }
+
+    public interface IDataUpdate
+    {
+        ILanguage Update();
     }
 }

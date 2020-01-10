@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace CVBuilder.Core
 {
-    public class CVBuilder : IFirstName, ILastName, IPhoneNumber, IEmail, IContactAddress, ILanguage, INationality, IEducation, ICvOptionalValues
+    public class CurriculumVitaeBuilder : IFirstName, ILastName, IPhoneNumber, IEmail, IContactAddress, ILanguage, INationality, IEducation, ICvOptionalValues, IUpdatableBuilder<Address>
     {
         private CurriculumVitae _curriculumVitae;
 
-        private CVBuilder()
+        private CurriculumVitaeBuilder()
         {
+            _curriculumVitae = new CurriculumVitae();
             _curriculumVitae.Educations = new List<Education>();
         }
 
         public static IFirstName Start()
         {
-            return new CVBuilder();
+            return new CurriculumVitaeBuilder();
         }
 
         public ILastName WithFirstName(string firstName)
@@ -43,7 +41,13 @@ namespace CVBuilder.Core
             return this;
         }
 
-        public ILanguage WithAddress(Address address)
+        public ICountry WithAddress()
+        {
+            _curriculumVitae.Address = _curriculumVitae.Address ?? new Address(); // this will ensure we have the link to cv model.
+            return AddressBuilder.Start(this, _curriculumVitae.Address);
+        }
+
+        public ILanguage WithAddress(Address address) 
         {
             _curriculumVitae.Address = address;
             return this;
@@ -105,6 +109,11 @@ namespace CVBuilder.Core
         public CurriculumVitae Finish()
         {
             return _curriculumVitae;
+        }
+
+        public void UpdateParrentBuilder(Address address)
+        {
+            _curriculumVitae.Address = address;
         }
     }
 }

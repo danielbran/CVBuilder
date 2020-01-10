@@ -24,6 +24,7 @@ namespace CVBuilder.Core
 
     public interface IContactAddress
     {
+        ICountry WithAddress();
         ILanguage WithAddress(Address address);
     }
 
@@ -57,4 +58,12 @@ namespace CVBuilder.Core
     {
         T Finish();
     }
+
+    public interface IUpdatableBuilder<T>
+        where T : class
+    {
+        void UpdateParrentBuilder(T model);
+    }
 }
+
+

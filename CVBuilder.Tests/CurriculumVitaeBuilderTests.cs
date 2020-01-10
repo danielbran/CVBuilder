@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Linq;
 using CV = CVBuilder.Core;
 
@@ -15,13 +14,17 @@ namespace CVBuilder.Tests
         [Test]
         public void Create_CurriculumVitae_Minimum_Information_Successfully()
         {
-            CV.CurriculumVitae curriculum = CVBuilder.Core.CVBuilder
+            CV.CurriculumVitae curriculum = CVBuilder.Core.CurriculumVitaeBuilder
                 .Start()
                 .WithFirstName("Daniel")
                 .WithLastName("Bran")
                 .WithPhoneNumber("0040734470375")
                 .WithEmail("brandanyel@gmail.com")
-                .WithAddress(new CV.Address() { })
+                .WithAddress()
+                .WithCountry("Romania")
+                .WithCounty("Bihor")
+                .WithCity("Oradea")
+                .Update() // this is optional, we can user object reference to update the model.
                 .WithLanguage("English")
                 .WithLanguage("Spanish")
                 .WithLanguage("Romanian")
@@ -41,7 +44,7 @@ namespace CVBuilder.Tests
         [Test]
         public void Create_CurriculumVitae_AllData_And_Options_Successfully()
         {
-            CV.CurriculumVitae curriculum = CVBuilder.Core.CVBuilder
+            CV.CurriculumVitae curriculum = CVBuilder.Core.CurriculumVitaeBuilder
                 .Start()
                 .WithFirstName("Daniel")
                 .WithLastName("Bran")
