@@ -1,4 +1,6 @@
-﻿namespace CVBuilder.Core
+﻿using CVBuilder.Core.Models;
+
+namespace CVBuilder.Core
 {
     public class AddressBuilder : ICountry, ICounty, ICity, IDataUpdate
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CVBuilder.Core.Models;
+using System.Collections.Generic;
 
 namespace CVBuilder.Core
 {
