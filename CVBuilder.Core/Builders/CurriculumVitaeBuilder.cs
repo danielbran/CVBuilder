@@ -1,10 +1,12 @@
 ﻿using CVBuilder.Core.Builders;
 using CVBuilder.Core.Models;
+using CVBuilder.Core.Validators;
+using System;
 using System.Collections.Generic;
 
 namespace CVBuilder.Core
 {
-    public class CurriculumVitaeBuilder : IFirstName, ILastName, IPhoneNumber, IEmail, IContactAddress, ILanguage, INationality, IEducation, ICvOptionalValues, IUpdatableBuilder<Address>
+    public class CurriculumVitaeBuilder : IFirstName, ILastName, IPhoneNumber, IEmail, IContactAddress, ILanguage, INationality, IEducation, ICvOptionalValues, IUpdatableBuilder<Address>, IBuilderValidator
     {
         private CurriculumVitae _curriculumVitae;
 
@@ -107,6 +109,34 @@ namespace CVBuilder.Core
             _curriculumVitae.PhotoUrl = photo;
             return this;
         }
+
+        public ICvOptionalValues Validate()
+        {
+            CurriculumVitaeValidator cvValidator = new CurriculumVitaeValidator();
+
+            FluentValidation.Results.ValidationResult cvResult = cvValidator.Validate(_curriculumVitae);
+
+            if (!cvResult.IsValid)
+            {
+                throw CreateValidationException(cvResult);
+            }
+
+            return this;
+        }
+
+        private Exception CreateValidationException(FluentValidation.Results.ValidationResult result) 
+        {
+            string exceptionString = "";
+
+            foreach (var item in result.Errors)
+            {
+                exceptionString += $"{item.ErrorCode} {item.ErrorMessage} \n";
+            }
+
+            return new Exception(exceptionString);
+        }
+
+        
 
         public CurriculumVitae Finish()
         {

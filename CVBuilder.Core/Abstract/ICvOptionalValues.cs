@@ -10,6 +10,7 @@ namespace CVBuilder.Core
         ICvOptionalValues WithProjectPortofolioItem(ProjectPortofolio projectPortofolioItem);
         ICvOptionalValues WithTrainingItem(Training trainingItem);
         ICvOptionalValues WithCertificationItem(Certification certificationItem);
+        ICvOptionalValues Validate();
     }
 }
 

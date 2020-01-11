@@ -1,4 +1,5 @@
 using CVBuilder.Core.Models;
+using CVBuilder.Core.Printers;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
@@ -43,6 +44,9 @@ namespace CVBuilder.Tests
                 .WithEducationItem(new Education() { Id = 1, Title = "Facultate" })
                 .Finish();
 
+            ConsolePrinter consolePrinter = new ConsolePrinter();
+            consolePrinter.Print(curriculum);
+
             Assert.AreEqual(curriculum.FullName, "Daniel Bran");
             Assert.AreEqual(curriculum.PhoneNumber, "00400375");
             Assert.AreEqual(curriculum.EmailAddress, "brandanyel@gmail.com");
@@ -55,7 +59,7 @@ namespace CVBuilder.Tests
         [Test]
         public void Create_CurriculumVitae_AllData_And_Options_Successfully()
         {
-            CurriculumVitae curriculum = CVBuilder.Core.CurriculumVitaeBuilder
+            CurriculumVitae curriculum = CV.CurriculumVitaeBuilder
                 .Start()
                 .WithFirstName("Daniel")
                 .WithLastName("Bran")
@@ -75,6 +79,7 @@ namespace CVBuilder.Tests
                 .WithPublicAppearanceItem(new PublicAppearance() { })
                 .AddPhoto("http://linkedin/daniel.bran")
                 .AddPhoto("http://linkedin/daniel.bran")
+                .Validate()
                 .Finish();
 
             Assert.AreEqual(curriculum.FullName, "Daniel Bran");
