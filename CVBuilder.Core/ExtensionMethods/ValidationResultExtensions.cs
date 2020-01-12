@@ -6,25 +6,15 @@ namespace CVBuilder.Core.ExtensionMethods
     /// <summary>
     /// Helper and Extension methods.
     /// </summary>
-    public static class ExceptionExtensions
+    public static class ValidationResultExtensions
     {
         /// <summary>
-        /// CreateValidationException extension method to type Exception
+        /// ToException extension method to type ValidationResult
         /// </summary>
         /// <param name="ex"></param>
         /// <param name="result"></param>
         /// <returns></returns>
-        public static Exception CreateValidationException(this Exception ex, FluentValidation.Results.ValidationResult result)
-        {
-            return CreateValidationException(result);
-        }
-
-        /// <summary>
-        /// CreateValidationException helper method.
-        /// </summary>
-        /// <param name="result"></param>
-        /// <returns></returns>
-        public static Exception CreateValidationException(FluentValidation.Results.ValidationResult result)
+        public static Exception ToException(this FluentValidation.Results.ValidationResult result)
         {
             StringBuilder exceptionString = new StringBuilder();
 
