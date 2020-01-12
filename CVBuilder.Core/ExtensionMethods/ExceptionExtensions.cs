@@ -6,7 +6,7 @@ namespace CVBuilder.Core.ExtensionMethods
     /// <summary>
     /// Helper and Extension methods.
     /// </summary>
-    public static class MyExtensions
+    public static class ExceptionExtensions
     {
         /// <summary>
         /// CreateValidationException extension method to type Exception

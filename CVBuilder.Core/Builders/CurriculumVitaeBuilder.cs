@@ -132,7 +132,7 @@ namespace CVBuilder.Core
 
             if (!cvResult.IsValid)
             {
-                throw MyExtensions.CreateValidationException(cvResult);
+                throw ExceptionExtensions.CreateValidationException(cvResult);
             }
 
             return this;

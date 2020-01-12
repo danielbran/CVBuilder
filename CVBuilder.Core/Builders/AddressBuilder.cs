@@ -12,7 +12,7 @@ namespace CVBuilder.Core.Builders
 
         private AddressBuilder(ILanguage language)
         {
-            _address = new Address(); ;
+            _address = new Address();
             _language = language;
         }
 
