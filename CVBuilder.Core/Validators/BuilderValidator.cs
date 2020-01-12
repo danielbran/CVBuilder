@@ -3,6 +3,6 @@
     public abstract class BuilderValidator<T>
         where T : class
     {
-        public abstract void Validate(T model);
+        public abstract bool Validate(T model);
     }
 }

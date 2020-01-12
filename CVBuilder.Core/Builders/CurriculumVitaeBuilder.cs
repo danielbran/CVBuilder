@@ -1,4 +1,5 @@
 ﻿using CVBuilder.Core.Builders;
+using CVBuilder.Core.ExtensionMethods;
 using CVBuilder.Core.Models;
 using CVBuilder.Core.Validators;
 using System;
@@ -6,16 +7,23 @@ using System.Collections.Generic;
 
 namespace CVBuilder.Core
 {
+    /// <summary>
+    /// CurriculumVitae Builder
+    /// </summary>
     public class CurriculumVitaeBuilder : IFirstName, ILastName, IPhoneNumber, IEmail, IContactAddress, ILanguage, INationality, IEducation, ICvOptionalValues, IUpdatableBuilder<Address>, IBuilderValidator
     {
         private CurriculumVitae _curriculumVitae;
 
+        /// <summary>
+        ///  Private costructor
+        /// </summary>
         private CurriculumVitaeBuilder()
         {
             _curriculumVitae = new CurriculumVitae();
             _curriculumVitae.Educations = new List<Education>();
         }
 
+        #region Builder Steps
         public static IFirstName Start()
         {
             return new CurriculumVitaeBuilder();
@@ -69,11 +77,18 @@ namespace CVBuilder.Core
             return this;
         }
 
+        public ICvOptionalValues WithBirthday(DateTime date) 
+        {
+            _curriculumVitae.Birthday = date;
+            return this;
+        }
+
         public ICvOptionalValues WithEducationItem(Education educationItem)
         {
             _curriculumVitae.Educations.Add(educationItem);
             return this;
         }
+
         public ICvOptionalValues WithCertificationItem(Certification certificationItem)
         {
             _curriculumVitae.Certifications.Add(certificationItem);
@@ -118,25 +133,11 @@ namespace CVBuilder.Core
 
             if (!cvResult.IsValid)
             {
-                throw CreateValidationException(cvResult);
+                throw MyExtensions.CreateValidationException(cvResult);
             }
 
             return this;
         }
-
-        private Exception CreateValidationException(FluentValidation.Results.ValidationResult result) 
-        {
-            string exceptionString = "";
-
-            foreach (var item in result.Errors)
-            {
-                exceptionString += $"{item.ErrorCode} {item.ErrorMessage} \n";
-            }
-
-            return new Exception(exceptionString);
-        }
-
-        
 
         public CurriculumVitae Finish()
         {
@@ -147,5 +148,6 @@ namespace CVBuilder.Core
         {
             _curriculumVitae.Address = address;
         }
+        #endregion
     }
 }

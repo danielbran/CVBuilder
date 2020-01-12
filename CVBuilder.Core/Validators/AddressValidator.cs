@@ -3,6 +3,10 @@ using FluentValidation;
 
 namespace CVBuilder.Core.Validators
 {
+    /// <summary>
+    /// Address Validator implemented with Fluent validation
+    /// This is a example of how we can do, the example is not complete.
+    /// </summary>
     public class AddressValidator : AbstractValidator<Address>
     {
         public AddressValidator()

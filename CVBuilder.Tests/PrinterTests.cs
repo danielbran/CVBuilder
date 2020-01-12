@@ -1,13 +1,12 @@
+﻿using CVBuilder.Core;
 using CVBuilder.Core.Models;
 using CVBuilder.Core.Printers;
 using NUnit.Framework;
 using System;
-using System.Linq;
-using CV = CVBuilder.Core;
 
 namespace CVBuilder.Tests
 {
-    public class CurriculumVitaeBuilderTests
+    public class PrinterTests
     {
         [SetUp]
         public void Setup()
@@ -15,7 +14,7 @@ namespace CVBuilder.Tests
         }
 
         [Test]
-        public void Create_CurriculumVitae_Minimum_Information_Successfully()
+        public void Print_CV_basic_info_into_Console_Successfully()
         {
             // Create Curriculum Vitae using CurriculumVitae builder
             CurriculumVitae curriculum = CVBuilder.Core.CurriculumVitaeBuilder
@@ -28,7 +27,7 @@ namespace CVBuilder.Tests
                 .WithCountry("Romania")
                 .WithCounty("Bihor")
                 .WithCity("Oradea")
-                .Update() // this is optional, we can user object reference to update the model.
+                .Update()
                 .WithLanguage("English")
                 .WithLanguage("Spanish")
                 .WithLanguage("Romanian")
@@ -66,14 +65,14 @@ namespace CVBuilder.Tests
             Assert.AreEqual(curriculum.Address.City, "Oradea");
             Assert.IsTrue(curriculum.Languages.Count == 3);
             Assert.AreEqual(curriculum.Nationality, "Romanian");
-            Assert.IsTrue(curriculum.Educations.ToList().Count == 2);
+            Assert.IsTrue(curriculum.Educations.Count == 2);
             Assert.Pass();
         }
 
         [Test]
-        public void Create_CurriculumVitae_AllData_And_Options_Successfully()
+        public void Print_All_CV_info_into_Console_Successfully()
         {
-            CurriculumVitae curriculum = CV.CurriculumVitaeBuilder
+            CurriculumVitae curriculum = CurriculumVitaeBuilder
                 .Start()
                 .WithFirstName("Daniel")
                 .WithLastName("Bran")
@@ -114,13 +113,13 @@ namespace CVBuilder.Tests
                     Description = "Azure training internal at Fortech with Alex Mang"
                 })
                 .WithProjectPortofolioItem(
-                    new ProjectPortofolio() 
-                    { 
+                    new ProjectPortofolio()
+                    {
                         Title = "Private Project",
                         Description = "Private description"
                     })
                 .WithWorkingExperienceItem(
-                    new WorkingExperience() 
+                    new WorkingExperience()
                     {
                         Title = "Fortech Romania",
                         Description = "I am working at Fortech since 2016"
@@ -132,11 +131,11 @@ namespace CVBuilder.Tests
                         Description = "I was working on several projects for several  Romanian institutions, websites, desktop applications"
                     })
                 .WithPublicAppearanceItem(
-                    new PublicAppearance() 
+                    new PublicAppearance()
                     {
                         PublicAppearanceType = PublicAppearanceType.Newspaper,
-                         Title = "Mentor at DPIT contest, third place",
-                         Description = "My team with me as mentor took the third place DPIT 2019 contest."
+                        Title = "Mentor at DPIT contest, third place",
+                        Description = "My team with me as mentor took the third place DPIT 2019 contest."
 
                     })
                 .WithPublicAppearanceItem(
@@ -152,6 +151,12 @@ namespace CVBuilder.Tests
                 .Validate()
                 .Finish();
 
+            // Create new console printer to display the curriculum into Test output.
+            ConsolePrinter consolePrinter = new ConsolePrinter();
+
+            // Print CV into Test output.
+            consolePrinter.Print(curriculum);
+
             // Test asserts
             Assert.AreEqual(curriculum.FullName, "Daniel Bran");
             Assert.AreEqual(curriculum.PhoneNumber, "0040734***375");
@@ -166,57 +171,6 @@ namespace CVBuilder.Tests
             Assert.IsTrue(curriculum.ProjectsPortofolio.Count == 1);
             Assert.IsTrue(curriculum.PublicAppearances.Count == 2);
             Assert.IsTrue(curriculum.WorkingExperiences.Count == 2);
-            Assert.Pass();
-        }
-
-        [Test]
-        public void Create_CurriculumVitae_Minimum_Information_Failing_invalid_age()
-        {
-            Exception exception = null;
-            try
-            {
-                // Create Curriculum Vitae using CurriculumVitae builder
-                CurriculumVitae curriculum = CVBuilder.Core.CurriculumVitaeBuilder
-                    .Start()
-                    .WithFirstName("Daniel")
-                    .WithLastName("Bran")
-                    .WithPhoneNumber("0040734***375")
-                    .WithEmail("bran******@gmail.com")
-                    .WithAddress()
-                    .WithCountry("Romania")
-                    .WithCounty("Bihor")
-                    .WithCity("Oradea")
-                    .Update()
-                    .WithLanguage("English")
-                    .WithLanguage("Spanish")
-                    .WithLanguage("Romanian")
-                    .WithNationaity("Romanian")
-                    .WithEducationItem(
-                        new Education()
-                        {
-                            Id = 1,
-                            Title = "Coumputer Science Faculty",
-                            Description = "Coumputer Science Faculty at University of Oradea"
-                        })
-                    .WithEducationItem(
-                        new Education()
-                        {
-                            Id = 2,
-                            Title = "Master of Computer Science",
-                            Description = "Master of Computer Science at University of Oradea, theme Distributed systems in internet"
-                        })
-                    .WithBirthday(DateTime.Now.AddYears(-17))
-                    .AddPhoto("https://media-exp1.licdn.com/dms/image/C5103AQGKJtoudXZHSg/profile-displayphoto-shrink_200_200/0?e=1584576000&v=beta&t=B1EuznIzsSR6CEJVoSzXEzIAJudSsIpC8Ky8_EGqBnw")
-                    .Validate()
-                    .Finish();
-            }
-            catch (Exception ex)
-            {
-                exception = ex;
-            }
-
-            Assert.IsNotNull(exception);
-            Assert.AreEqual(exception.Message, "PredicateValidator You need to have at least 18 years. \n");
             Assert.Pass();
         }
     }
