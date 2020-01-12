@@ -13,6 +13,11 @@ CVBuilder includes items like:
 - extension method;
 - abstract class and interface segregation;
 
+Things to improve:
+- validation
+- code separation in partial classes
+- more accured documentation for the methods
+
 Note: The validation are not complete yet, the validators needs to be adjustes, for example the email validation, phone validation and so on.
 
 
