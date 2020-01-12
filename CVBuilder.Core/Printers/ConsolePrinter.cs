@@ -41,6 +41,12 @@ namespace CVBuilder.Core.Printers
                 {
                     _sb.Append($"Title: {item.Title}\n\n");
                     _sb.Append($"Description: {item.Description}\n\n");
+
+                    if (item.PeriodTime != null)
+                    {
+                        _sb.Append($"StartDate: {item.PeriodTime.StartDate}\n\n");
+                        _sb.Append($"StartDate: {item.PeriodTime.EndDate}\n\n");
+                    }
                 }
             }
 
@@ -52,6 +58,7 @@ namespace CVBuilder.Core.Printers
                 {
                     _sb.Append($"Title: {item.Title}\n\n");
                     _sb.Append($"Description: {item.Description}\n\n");
+                    _sb.Append($"Institution: {item.Institution ?? "-"}\n\n");
                 }
             }
 
@@ -63,26 +70,39 @@ namespace CVBuilder.Core.Printers
                 {
                     _sb.Append($"Title: {item.Title}\n\n");
                     _sb.Append($"Description: {item.Description}\n\n");
+                    _sb.Append($"Company: {item.Company ?? "-"}\n\n");
                 }
             }
 
-            if (message.Certifications != null && message.Certifications.Count < 0)
+            if (message.Certifications != null && message.Certifications.Count > 0)
             {
-                _sb.Append("Category \n\n\n");
+                _sb.Append("Certifications: \n\n");
 
                 foreach (var item in message.Certifications)
                 {
                     _sb.Append($"Title: {item.Title}\n\n");
                     _sb.Append($"Description: {item.Description}\n\n");
+
+                    _sb.Append($"Institution: {item.Institution ?? "-"}\n\n");
+
                 }
             }
 
-            if (message.PublicAppearances != null && message.PublicAppearances.Count < 0)
+            if (message.PublicAppearances != null && message.PublicAppearances.Count > 0)
             {
-                _sb.Append("Category \n\n\n");
+                _sb.Append("PublicAppearances: \n\n");
 
                 foreach (var item in message.PublicAppearances)
                 {
+                    if (item.PublicAppearanceType == PublicAppearanceType.TV)
+                    {
+                        _sb.Append("Tv appearance\n\n");
+                    }
+                    else if (item.PublicAppearanceType == PublicAppearanceType.Newspaper)
+                    {
+                        _sb.Append("Newspaper appearance\n\n");
+                    }
+
                     _sb.Append($"Title: {item.Title}\n\n");
                     _sb.Append($"Description: {item.Description}\n\n");
                 }
