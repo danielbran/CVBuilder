@@ -1,4 +1,4 @@
-# CVBuilder
+# CVBuilder using fluent builder pattern
 Curriculum vitae builder example using fluent builder pattern
 
 We can play with the interfaces and force the usage of an object, also to ensure we have the object in the format we need.
