@@ -10,16 +10,15 @@ namespace CVBuilder.Core.Builders
         private Address _address;
         private ILanguage _language;
 
-        private AddressBuilder(ILanguage language, Address address)
+        private AddressBuilder(ILanguage language)
         {
-            address = address ?? new Address(); // if address is null, we will lose the link to the cv.address
-            _address = address;
+            _address = new Address(); ;
             _language = language;
         }
 
-        public static ICountry Start(ILanguage language, Address address)
+        public static ICountry Start(ILanguage language)
         {
-            return new AddressBuilder(language, address);
+            return new AddressBuilder(language);
         }
 
         /// <summary>

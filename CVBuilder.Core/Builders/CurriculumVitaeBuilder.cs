@@ -55,8 +55,7 @@ namespace CVBuilder.Core
 
         public ICountry WithAddress()
         {
-            _curriculumVitae.Address = _curriculumVitae.Address ?? new Address(); // this will ensure we have the link to cv model.
-            return AddressBuilder.Start(this, _curriculumVitae.Address);
+            return AddressBuilder.Start(this);
         }
 
         public ILanguage WithAddress(Address address) 
