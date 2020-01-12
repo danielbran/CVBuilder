@@ -28,7 +28,7 @@ namespace CVBuilder.Tests
                 .WithCountry("Romania")
                 .WithCounty("Bihor")
                 .WithCity("Oradea")
-                .Update() // this is optional, we can user object reference to update the model.
+                .Update()
                 .WithLanguage("English")
                 .WithLanguage("Spanish")
                 .WithLanguage("Romanian")

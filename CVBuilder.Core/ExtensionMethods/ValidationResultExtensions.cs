@@ -17,7 +17,6 @@ namespace CVBuilder.Core.ExtensionMethods
         public static Exception ToException(this FluentValidation.Results.ValidationResult result)
         {
             StringBuilder exceptionString = new StringBuilder();
-
             foreach (var item in result.Errors)
             {
                 exceptionString.Append($"{item.ErrorCode} {item.ErrorMessage} \n");
